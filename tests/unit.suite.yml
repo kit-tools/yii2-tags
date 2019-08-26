@@ -1,0 +1,21 @@
+# Codeception Test Suite Configuration
+#
+# Suite for unit or integration tests.
+
+actor: UnitTester
+modules:
+    enabled:
+        - Asserts
+        - \Helper\Unit
+        - Yii2:
+            configFile: 'tests/_app/config/test.php'
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=yii2-tags-test'
+            user: 'root'
+            password: '123'
+            #dump: 'tests/_data/dump.sql'
+            populate: true
+            cleanup: false
+            reconnect: false
+            populator: 'tests/_app/console.php migrate/up --interactive=0'
+    step_decorators: ~        

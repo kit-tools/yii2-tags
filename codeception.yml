@@ -1,0 +1,26 @@
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+
+actor_suffix: Tester
+
+bootstrap: _bootstrap.php
+
+settings:
+  report_useless_tests: true
+
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+
+coverage:
+  enabled: true
+  include:
+    - src/*
+  exclude:
+    - src/migrations/*
+    - src/views/*
+    - src/widgets/views/*
