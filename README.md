@@ -34,8 +34,8 @@ Add to config (config/main.php или config/web.php)
 In the model with which you want to associate tags, add:
 
 ```php
-...
 <?php
+...
 /**
  * @var array list of tags entered by the user.
  */
