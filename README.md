@@ -48,7 +48,7 @@ public $tagList = [];
 <?php
 public function rules(){
     ...
-    ['tagList', 'required'],
+    ['tagList', 'required', 'skipOnEmpty' => false],
     ['tagList', 'each', 'rule' => ['string'], 'message' => 'Tags are filled incorrectly.'],
     ...
 }

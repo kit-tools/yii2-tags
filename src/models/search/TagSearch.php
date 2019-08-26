@@ -18,7 +18,8 @@ class TagSearch extends Tag
     {
         return [
             [['id'], 'integer'],
-            [['title'], 'safe'],
+            [['title'], 'string', 'max' => 30],
+            [['title'], 'filter', 'filter' => 'trim'],
         ];
     }
 
@@ -57,34 +58,6 @@ class TagSearch extends Tag
         $query->andFilterWhere([
             'id' => $this->id
         ]);
-
-        $query->andFilterWhere(['like', 'title', $this->title]);
-
-        return $dataProvider;
-    }
-
-    /**
-     * Search by model element by tag name
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function searchByTagName(array $params): ActiveDataProvider
-    {
-        $query = Tag::find();
-
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            $query->where('0=1');
-            return $dataProvider;
-        }
 
         $query->andFilterWhere(['like', 'title', $this->title]);
 

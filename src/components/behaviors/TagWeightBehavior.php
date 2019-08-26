@@ -9,6 +9,10 @@ use kittools\tags\models\TagWeight;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 
+/**
+ * Tag weight update
+ * @package kittools\tags\components\behaviors
+ */
 class TagWeightBehavior extends Behavior
 {
     /**
@@ -18,10 +22,15 @@ class TagWeightBehavior extends Behavior
     {
         return [
             ActiveRecord::EVENT_AFTER_INSERT => 'updateTagWeight',
+            ActiveRecord::EVENT_AFTER_UPDATE => 'updateTagWeight',
             ActiveRecord::EVENT_AFTER_DELETE => 'updateTagWeight',
         ];
     }
 
+    /**
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function updateTagWeight()
     {
         $weight = TagEntityRelation::find()

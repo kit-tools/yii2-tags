@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  */
 class Product1 extends ActiveRecord
 {
+    /** @var array */
     public $tagList = [];
 
     /**
@@ -37,7 +38,7 @@ class Product1 extends ActiveRecord
             [['title'], 'string', 'max' => 30],
             [['title'], 'unique'],
             [['title'], 'filter', 'filter' => 'trim'],
-            ['tagList', 'required'],
+            ['tagList', 'required', 'skipOnEmpty' => false],
             ['tagList', 'each', 'rule' => ['string'], 'message' => 'Tags are filled incorrectly.'],
         ];
     }
@@ -58,7 +59,7 @@ class Product1 extends ActiveRecord
     public function getTags()
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
-            ->viaTable(TagEntityRelation::class, ['entity_id' => 'id'], function ($query) {
+            ->viaTable(TagEntityRelation::tableName(), ['entity_id' => 'id'], function ($query) {
                 $query->andWhere([TagEntityRelation::tableName() . '.entity' => static::class]);
             });
     }
