@@ -9,7 +9,7 @@ The preferred way to install this extension is through composer.
 
 Either run:
 
-```composer require kittools/yii2-tags "^1.0.0"```
+```composer require kittools/yii2-tags```
 
 or add
 
