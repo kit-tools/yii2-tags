@@ -16,7 +16,7 @@
   "require": {
     "php": ">=7.1",
     "yiisoft/yii2": "~2.0.0",
-    "kartik-v/yii2-widget-select2": "~2.0.8"
+    "kartik-v/yii2-widget-select2": "~v2.2.5"
   },
   "require-dev": {
     "codeception/codeception": "3.1.*"
