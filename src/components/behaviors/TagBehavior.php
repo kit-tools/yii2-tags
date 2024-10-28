@@ -25,6 +25,10 @@ use yii\db\ActiveRecord;
  */
 class TagBehavior extends Behavior
 {
+    public $tagModelClass = Tag::class;
+
+    public $tagEntityRelationClass = TagEntityRelation::class;
+
     /**
      * @inheritdoc
      */
@@ -49,22 +53,22 @@ class TagBehavior extends Behavior
         $usedTagIds = [];
         if (!empty($this->owner->tagList)) {
             foreach ($this->owner->tagList as $tag) {
-                $modelTag = Tag::find()->byTitle($tag)->one();
+                $modelTag = $this->tagModelClass::find()->byTitle($tag)->one();
 
                 if (empty($modelTag)) {
-                    $modelTag = new Tag();
+                    $modelTag = new $this->tagModelClass();
                     $modelTag->title = $tag;
                     $modelTag->save();
                 }
 
-                $modelTagEntityRelation = TagEntityRelation::find()
+                $modelTagEntityRelation = $this->tagEntityRelationClass::find()
                     ->byTagId($modelTag->id)
                     ->byEntity(get_class($this->owner))
                     ->byEntityId($this->owner->id)
                     ->one();
 
                 if (empty($modelTagEntityRelation)) {
-                    $modelTagEntityRelation = new TagEntityRelation();
+                    $modelTagEntityRelation = new $this->tagEntityRelationClass();
                     $modelTagEntityRelation->tag_id = $modelTag->id;
                     $modelTagEntityRelation->entity = get_class($this->owner);
                     $modelTagEntityRelation->entity_id = $this->owner->id;
@@ -91,7 +95,7 @@ class TagBehavior extends Behavior
      */
     protected function getModelsTagRelation()
     {
-        return TagEntityRelation::find()
+        return $this->tagEntityRelationClass::find()
             ->byEntity(get_class($this->owner))
             ->byEntityId($this->owner->id)
             ->all();

@@ -15,6 +15,10 @@ use yii\db\ActiveRecord;
  */
 class TagWeightBehavior extends Behavior
 {
+    public $tagEntityRelationClass = TagEntityRelation::class;
+
+    public $tagWeightClass = TagWeight::class;
+
     /**
      * @inheritdoc
      */
@@ -33,11 +37,11 @@ class TagWeightBehavior extends Behavior
      */
     public function updateTagWeight()
     {
-        $weight = TagEntityRelation::find()
+        $weight = $this->tagEntityRelationClass::find()
             ->select('COUNT(id)')
             ->weightTagForEntity($this->owner->entity, $this->owner->tag_id)->scalar();
 
-        $modelTagWeight = TagWeight::find()->byEntityAndTagId($this->owner->entity, $this->owner->tag_id)->one();
+        $modelTagWeight = $this->tagWeightClass::find()->byEntityAndTagId($this->owner->entity, $this->owner->tag_id)->one();
 
         if (empty($weight)) {
             if (!empty($modelTagWeight)) {
@@ -45,7 +49,7 @@ class TagWeightBehavior extends Behavior
             }
         } else {
             if (empty($modelTagWeight)) {
-                $modelTagWeight = new TagWeight();
+                $modelTagWeight = new $this->tagWeightClass();
                 $modelTagWeight->tag_id = $this->owner->tag_id;
                 $modelTagWeight->entity = $this->owner->entity;
             }
